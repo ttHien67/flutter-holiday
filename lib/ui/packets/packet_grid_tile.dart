@@ -37,13 +37,18 @@ class PacketGridTitle extends StatelessWidget {
 
   Widget buildGridFooterBar(BuildContext context) {
     return GridTileBar(
-      leading: IconButton(
-        icon: Icon(
-          packet.isFavorite ? Icons.favorite : Icons.favorite_border,
-        ),
-        color: Theme.of(context).colorScheme.secondary,
-        onPressed: () {
-          print('Toggle a favorite packet');
+      leading: ValueListenableBuilder<bool>(
+        valueListenable: packet.isFavoriteListenable,
+        builder: (ctx, isFavorite, child) {
+          return IconButton(
+            icon: Icon(
+              packet.isFavorite ? Icons.favorite : Icons.favorite_border,
+            ),
+            color: Theme.of(context).colorScheme.secondary,
+            onPressed: () {
+              packet.isFavorite = !isFavorite;
+            },
+          );
         },
       ),
       title: Text(

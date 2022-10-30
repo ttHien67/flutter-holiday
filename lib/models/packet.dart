@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Packet {
   final String? id;
   final String title;
@@ -5,7 +7,7 @@ class Packet {
   final double price;
   final String image;
   final String description;
-  final bool isFavorite;
+  final ValueNotifier<bool> _isFavorite;
 
   Packet({
     this.id,
@@ -14,8 +16,20 @@ class Packet {
     required this.price,
     required this.image,
     required this.description,
-    this.isFavorite = false,
-  });
+    isFavorite = false,
+  }) : _isFavorite = ValueNotifier(isFavorite);
+
+  set isFavorite(bool newValue) {
+    _isFavorite.value = newValue;
+  }
+
+  bool get isFavorite {
+    return _isFavorite.value;
+  }
+
+  ValueNotifier<bool> get isFavoriteListenable {
+    return _isFavorite;
+  }
 
   Packet copyWith({
     String? id,
