@@ -73,7 +73,7 @@ class PacketsManager with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  void addpacket(Packet packet) {
+  void addPacket(Packet packet) {
     _items.add(packet.copyWith(
       id: 'p${DateTime.now().toIso8601String()}',
     ));

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'edit_packet_screen.dart';
 import 'user_packet_list_tile.dart';
 import 'packet_manager.dart';
 import '../shared/app_drawer.dart';
@@ -17,7 +18,7 @@ class UserPacketsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Your Packets'),
         actions: <Widget>[
-          buildAddButton(),
+          buildAddButton(context),
         ],
       ),
       drawer: const AppDrawer(),
@@ -44,11 +45,13 @@ class UserPacketsScreen extends StatelessWidget {
     });
   }
 
-  Widget buildAddButton() {
+  Widget buildAddButton(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.add),
       onPressed: () {
-        print('Go to edit packet screen');
+        Navigator.of(context).pushNamed(
+          EditPacketScreen.routeName,
+        );
       },
     );
   }

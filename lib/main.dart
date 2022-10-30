@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           // home: const SafeArea(child: RegisterScreen()),
           home: const PacketOverviewScreen(),
           routes: {
-            RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+            RegisterScreen.routeName: (ctx) => const UserPacketsScreen(),
             UserPacketsScreen.routeName: (ctx) => const UserPacketsScreen(),
           },
           onGenerateRoute: (settings) {
@@ -39,10 +39,22 @@ class MyApp extends StatelessWidget {
               final packetId = settings.arguments as String;
               return MaterialPageRoute(builder: (ctx) {
                 return PacketDetailScreen(
-                  ctx.read<PacketsManager>().findById(packetId),
+                  PacketsManager().findById(packetId),
                 );
               });
             }
+
+            if (settings.name == EditPacketScreen.routeName) {
+              final packetId = settings.arguments as String?;
+              return MaterialPageRoute(builder: (ctx) {
+                return EditPacketScreen(
+                  packetId != null
+                      ? ctx.read<PacketsManager>().findById(packetId)
+                      : null,
+                );
+              });
+            }
+
             return null;
           },
         ));
