@@ -1,6 +1,7 @@
 import '../../models/packet.dart';
+import 'package:flutter/foundation.dart';
 
-class PacketsManager {
+class PacketsManager with ChangeNotifier {
   final List<Packet> _items = [
     Packet(
       id: '1',
@@ -70,5 +71,31 @@ class PacketsManager {
 
   Packet findById(String id) {
     return _items.firstWhere((prod) => prod.id == id);
+  }
+
+  void addpacket(Packet packet) {
+    _items.add(packet.copyWith(
+      id: 'p${DateTime.now().toIso8601String()}',
+    ));
+    notifyListeners();
+  }
+
+  void updatePacket(Packet packet) {
+    final index = _items.indexWhere((item) => item.id == packet.id);
+    if (index >= 0) {
+      _items[index] = packet;
+      notifyListeners();
+    }
+  }
+
+  void toggleFavoriteStatus(Packet packet) {
+    final savedStatus = packet.isFavorite;
+    packet.isFavorite = !savedStatus;
+  }
+
+  void deletePacket(String id) {
+    final index = _items.indexWhere((item) => item.id == id);
+    _items.removeAt(index);
+    notifyListeners();
   }
 }

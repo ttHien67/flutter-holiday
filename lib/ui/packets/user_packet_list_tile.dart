@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:holiday/ui/packets/packet_manager.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/packet.dart';
 
@@ -24,17 +26,24 @@ class UserPacketListTile extends StatelessWidget {
     );
   }
 
-  Widget buildEditButton(BuildContext context){
+  Widget buildDeleteButton(BuildContext context){
     return IconButton(
       icon: const Icon(Icons.delete),
-      onPressed: () async {
-        print('Delete a packet');
+     onPressed: () {
+        context.read<PacketsManager>().deletePacket(packet.id!);
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(const SnackBar(
+              content: Text(
+            'Packet deleted',
+            textAlign: TextAlign.center,
+          )));
       },
       color: Theme.of(context).errorColor,
     );
   }
 
-  Widget buildDeleteButton(BuildContext context){
+  Widget buildEditButton(BuildContext context){
     return IconButton(
       icon: const Icon(Icons.edit),
       onPressed: () {

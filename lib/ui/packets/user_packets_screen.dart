@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'user_packet_list_tile.dart';
 import 'packet_manager.dart';
@@ -28,17 +29,19 @@ class UserPacketsScreen extends StatelessWidget {
   }
 
   Widget buildUserPacketListView(PacketsManager packetsManager) {
-    return ListView.builder(
-      itemCount: packetsManager.itemCount,
-      itemBuilder: (ctx, i) => Column(
-        children: [
-          UserPacketListTile(
-            packetsManager.items[i],
-          ),
-          const Divider()
-        ],
-      ),
-    );
+     return Consumer<PacketsManager>(builder: (ctx, productManager, child) {
+      return ListView.builder(
+        itemCount: packetsManager.itemCount,
+        itemBuilder: (ctx, i) => Column(
+          children: [
+            UserPacketListTile(
+              packetsManager.items[i],
+            ),
+            const Divider()
+          ],
+        ),
+      );
+    });
   }
 
   Widget buildAddButton() {

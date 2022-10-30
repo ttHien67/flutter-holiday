@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:holiday/models/packet.dart';
+import 'package:provider/provider.dart';
 
 import 'packet_grid_tile.dart';
 import 'packet_manager.dart';
@@ -10,14 +12,14 @@ class PacketsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final packetManager = PacketsManager();
-    final products =
-        showFavorite ? packetManager.favoriteItems : packetManager.items;
-
+    final packets = context.select<PacketsManager, List<Packet>>(
+        (productsManager) => showFavorite
+            ? productsManager.favoriteItems
+            : productsManager.items);
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
-      itemCount: products.length,
-      itemBuilder: (ctx, i) => PacketGridTitle(products[i]),
+      itemCount: packets.length,
+      itemBuilder: (ctx, i) => PacketGridTitle(packets[i]),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
         childAspectRatio: 3,
