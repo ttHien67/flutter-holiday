@@ -109,6 +109,15 @@ class PacketsManager with ChangeNotifier {
     }
   }
 
+  Future<void> toggleFavoriteStatus(Packet packet) async {
+    final savedStatus = packet.isFavorite;
+    packet.isFavorite = !savedStatus;
+
+    if (!await _packetsService.saveFavoriteStatus(packet)) {
+      packet.isFavorite = savedStatus;
+    }
+  }
+
   int get itemCount {
     return _items.length;
   }
@@ -124,30 +133,4 @@ class PacketsManager with ChangeNotifier {
   Packet findById(String id) {
     return _items.firstWhere((prod) => prod.id == id);
   }
-
-  // void addPacket(Packet packet) {
-  //   _items.add(packet.copyWith(
-  //     id: 'p${DateTime.now().toIso8601String()}',
-  //   ));
-  //   notifyListeners();
-  // }
-
-  // void updatePacket(Packet packet) {
-  //   final index = _items.indexWhere((item) => item.id == packet.id);
-  //   if (index >= 0) {
-  //     _items[index] = packet;
-  //     notifyListeners();
-  //   }
-  // }
-
-  void toggleFavoriteStatus(Packet packet) {
-    final savedStatus = packet.isFavorite;
-    packet.isFavorite = !savedStatus;
-  }
-
-  // void deletePacket(String id) {
-  //   final index = _items.indexWhere((item) => item.id == id);
-  //   _items.removeAt(index);
-  //   notifyListeners();
-  // }
 }

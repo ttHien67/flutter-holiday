@@ -76,6 +76,7 @@ class PacketsService extends FirebaseService {
       return null;
     }
   }
+
   Future<bool> updatePacket(Packet packet) async {
     try {
       final url =
@@ -91,8 +92,8 @@ class PacketsService extends FirebaseService {
 
       return true;
     } catch (error) {
-        print(error);
-        return false;
+      print(error);
+      return false;
     }
   }
 
@@ -107,8 +108,28 @@ class PacketsService extends FirebaseService {
 
       return true;
     } catch (error) {
-        print(error);
-        return false;
+      print(error);
+      return false;
+    }
+  }
+
+  Future<bool> saveFavoriteStatus(Packet packet) async {
+    try {
+      final url = Uri.parse(
+          '$databaseUrl/userFavorites/$userId/${packet.id}.json?auth=$token');
+      final response = await http.put(url,
+          body: json.encode(
+            packet.isFavorite,
+          ));
+
+      if (response.statusCode != 200) {
+        throw Exception(json.decode(response.body)['error']);
+      }
+
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
     }
   }
 }
