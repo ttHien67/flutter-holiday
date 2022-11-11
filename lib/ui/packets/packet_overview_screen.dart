@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:holiday/ui/packets/packet_manager.dart';
+import 'package:provider/provider.dart';
 
 import 'packet_grid.dart';
 import '../shared/app_drawer.dart';
@@ -12,20 +14,42 @@ class PacketOverviewScreen extends StatefulWidget {
 }
 
 class _PacketOverviewScreenState extends State<PacketOverviewScreen> {
-  var _showOnlyFavorite = false;
+  var _showOnlyFavorites = ValueNotifier<bool>(false);
+
+  late Future<void> _fetchPackets;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPackets = context.read<PacketsManager>().fetchPackets();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Holiday'),
-        actions: <Widget>[
-          buildProductFilterMenu(),
-        ],
-      ),
-      drawer: const AppDrawer(),
-      body: PacketsGrid(_showOnlyFavorite),
-    );
+          title: const Text('MyShop'),
+          actions: <Widget>[
+            buildProductFilterMenu(),
+          ],
+        ),
+        drawer: const AppDrawer(),
+        body: FutureBuilder(
+          future: _fetchPackets,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ValueListenableBuilder<bool>(
+                valueListenable: _showOnlyFavorites,
+                builder: (context, onlyFavorites, child) {
+                  return PacketsGrid(onlyFavorites);
+                },
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ));
   }
 
   Widget buildProductFilterMenu() {
@@ -33,9 +57,9 @@ class _PacketOverviewScreenState extends State<PacketOverviewScreen> {
       onSelected: (FilterOptions selectedValue) {
         setState(() {
           if (selectedValue == FilterOptions.favorites) {
-            _showOnlyFavorite = true;
+            _showOnlyFavorites.value = true;
           }else {
-            _showOnlyFavorite = false;
+            _showOnlyFavorites.value = false;
           }
         });
       },

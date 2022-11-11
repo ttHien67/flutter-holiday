@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "99048297105",
+    "firebase_url": "https://flutter-holiday-7332b-default-rtdb.firebaseio.com",
+    "project_id": "flutter-holiday-7332b",
+    "storage_bucket": "flutter-holiday-7332b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99048297105:android:d153a7fcd18e428b4ce530",
+        "android_client_info": {
+          "package_name": "com.example.holiday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99048297105-cb5kssagf47jg1ktfkci2g7scq6i0rde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTEyI1dqtimtw2xWQN2CvN6fdII1YtZwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99048297105-cb5kssagf47jg1ktfkci2g7scq6i0rde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

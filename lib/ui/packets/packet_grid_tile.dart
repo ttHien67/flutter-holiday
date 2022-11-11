@@ -1,7 +1,5 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-
 import '../../models/packet.dart';
 
 import 'packet_detail_screen.dart';

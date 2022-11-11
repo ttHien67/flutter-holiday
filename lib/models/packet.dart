@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 class Packet {
   final String? id;
@@ -49,5 +51,29 @@ class Packet {
       description: description ?? this.description,
       isFavorite: isFavorite ?? this.isFavorite,
     );
+  }
+
+
+  static Packet fromJson(
+    Map<String, dynamic> data,
+  ) {
+    return Packet(
+      id: data['id'],
+      title: data['title'],
+      description: data['description'],
+      image: data['image'],
+      location: data['location'],
+      price: data['price'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "location": location,
+      "description": description,
+      "price": price,
+      "image": image,
+    };
   }
 }

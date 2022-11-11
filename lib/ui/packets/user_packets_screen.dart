@@ -10,27 +10,40 @@ class UserPacketsScreen extends StatelessWidget {
   static const routeName = '/user-packets';
   const UserPacketsScreen({super.key});
 
+   Future<void> _refreshPackets(BuildContext context) async {
+    await context.read<PacketsManager>().fetchPackets();
+  }
+
   @override
   Widget build(BuildContext context) {
     final packetManager = PacketsManager();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Your Packets'),
-        actions: <Widget>[
-          buildAddButton(context),
-        ],
-      ),
-      drawer: const AppDrawer(),
-      body: RefreshIndicator(
-        onRefresh: () async => print('refresh packets'),
-        child: buildUserPacketListView(packetManager),
-      ),
-    );
+       appBar: AppBar(
+          title: const Text('Your Products'),
+          actions: <Widget>[
+            buildAddButton(context),
+          ],
+        ),
+        drawer: const AppDrawer(),
+        body: FutureBuilder(
+          future: _refreshPackets(context),
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return RefreshIndicator(
+              onRefresh: () => _refreshPackets(context),
+              child: buildUserPacketListView(),
+            );
+          },
+        ));
   }
 
-  Widget buildUserPacketListView(PacketsManager packetsManager) {
-     return Consumer<PacketsManager>(builder: (ctx, productManager, child) {
+  Widget buildUserPacketListView() {
+     return Consumer<PacketsManager>(builder: (ctx, packetsManager, child) {
       return ListView.builder(
         itemCount: packetsManager.itemCount,
         itemBuilder: (ctx, i) => Column(

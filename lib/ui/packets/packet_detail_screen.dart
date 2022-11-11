@@ -5,12 +5,16 @@ import '../../models/packet.dart';
 class PacketDetailScreen extends StatelessWidget {
   static const routeName = '/packet-detail';
 
-  const PacketDetailScreen(
-    this.packet, {
+  PacketDetailScreen(
+    Packet? packet, {
     super.key,
-  });
+  }){
+    if(packet != null){
+      this.packet = packet;
+    }
+  }
 
-  final Packet packet;
+  late final Packet packet;
 
   @override
   Widget build(BuildContext context) {
