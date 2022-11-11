@@ -83,11 +83,11 @@ class _EditPacketScreenState extends State<EditPacketScreen> {
     });
 
     try {
-      final productsManager = context.read<PacketsManager>();
+      final packetsManager = context.read<PacketsManager>();
       if (_editPacket.id != null) {
-        productsManager.updatePacket(_editPacket);
+        await packetsManager.updatePacket(_editPacket);
       } else {
-        productsManager.addPacket(_editPacket);
+        await packetsManager.addPacket(_editPacket);
       }
     } catch (error) {
       await showErrorDialog(context, 'Some went wrong.');
@@ -128,7 +128,7 @@ class _EditPacketScreenState extends State<EditPacketScreen> {
                       buildLocationField(),
                       buildPriceField(),
                       buildDescriptionField(),
-                      buildProductPreview(),
+                      buildPacketPreview(),
                     ],
                   ),
                 ),
@@ -219,7 +219,7 @@ class _EditPacketScreenState extends State<EditPacketScreen> {
     );
   }
 
-  Widget buildProductPreview() {
+  Widget buildPacketPreview() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[

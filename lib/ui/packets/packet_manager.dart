@@ -6,7 +6,6 @@ import '../../models/packet.dart';
 import '../../models/auth_token.dart';
 import '../../services/packets_service.dart';
 
-
 class PacketsManager with ChangeNotifier {
   // final List<Packet> _items = [
   //   Packet(
@@ -64,10 +63,10 @@ class PacketsManager with ChangeNotifier {
   // ];
   List<Packet> _items = [];
 
-  final ProductsService _packetsService;
+  final PacketsService _packetsService;
 
   PacketsManager([AuthToken? authToken])
-      : _packetsService = ProductsService(authToken);
+      : _packetsService = PacketsService(authToken);
 
   set authToken(AuthToken? authToken) {
     _packetsService.authToken = authToken;
@@ -82,6 +81,30 @@ class PacketsManager with ChangeNotifier {
     final newPacket = await _packetsService.addPacket(packet);
     if (newPacket != null) {
       _items.add(newPacket);
+      notifyListeners();
+    }
+  }
+
+  Future<void> updatePacket(Packet packet) async {
+    final index = _items.indexWhere((item) => item.id == packet.id);
+    if (index >= 0) {
+      _items[index] = packet;
+      notifyListeners();
+      if (await _packetsService.updatePacket(packet)) {
+        _items[index] = packet;
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<void> deletePacket(String id) async {
+    final index = _items.indexWhere((item) => item.id == id);
+    Packet? existingpacket = _items[index];
+    _items.removeAt(index);
+    notifyListeners();
+
+    if (!await _packetsService.deletePacket(id)) {
+      _items.insert(index, existingpacket);
       notifyListeners();
     }
   }
@@ -109,22 +132,22 @@ class PacketsManager with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void updatePacket(Packet packet) {
-    final index = _items.indexWhere((item) => item.id == packet.id);
-    if (index >= 0) {
-      _items[index] = packet;
-      notifyListeners();
-    }
-  }
+  // void updatePacket(Packet packet) {
+  //   final index = _items.indexWhere((item) => item.id == packet.id);
+  //   if (index >= 0) {
+  //     _items[index] = packet;
+  //     notifyListeners();
+  //   }
+  // }
 
   void toggleFavoriteStatus(Packet packet) {
     final savedStatus = packet.isFavorite;
     packet.isFavorite = !savedStatus;
   }
 
-  void deletePacket(String id) {
-    final index = _items.indexWhere((item) => item.id == id);
-    _items.removeAt(index);
-    notifyListeners();
-  }
+  // void deletePacket(String id) {
+  //   final index = _items.indexWhere((item) => item.id == id);
+  //   _items.removeAt(index);
+  //   notifyListeners();
+  // }
 }

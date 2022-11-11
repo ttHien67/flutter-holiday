@@ -7,8 +7,8 @@ import '../models/auth_token.dart';
 
 import 'firebase_service.dart';
 
-class ProductsService extends FirebaseService {
-  ProductsService([AuthToken? authToken]) : super(authToken);
+class PacketsService extends FirebaseService {
+  PacketsService([AuthToken? authToken]) : super(authToken);
 
   Future<List<Packet>> fetchPackets([bool filterByUser = false]) async {
     final List<Packet> packets = [];
@@ -74,6 +74,41 @@ class ProductsService extends FirebaseService {
     } catch (error) {
       print(error);
       return null;
+    }
+  }
+  Future<bool> updatePacket(Packet packet) async {
+    try {
+      final url =
+          Uri.parse('$databaseUrl/packets/${packet.id}.json?auth=$token');
+      final response = await http.patch(
+        url,
+        body: json.encode(packet.toJson()),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(json.decode(response.body)['error']);
+      }
+
+      return true;
+    } catch (error) {
+        print(error);
+        return false;
+    }
+  }
+
+  Future<bool> deletePacket(String id) async {
+    try {
+      final url = Uri.parse('$databaseUrl/packets/$id.json?auth=$token');
+      final response = await http.delete(url);
+
+      if (response.statusCode != 200) {
+        throw Exception(json.decode(response.body)['error']);
+      }
+
+      return true;
+    } catch (error) {
+        print(error);
+        return false;
     }
   }
 }
