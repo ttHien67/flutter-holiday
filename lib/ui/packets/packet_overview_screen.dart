@@ -28,7 +28,7 @@ class _PacketOverviewScreenState extends State<PacketOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('MyShop'),
+          title: const Text('My Holiday'),
           actions: <Widget>[
             buildProductFilterMenu(),
           ],

@@ -85,6 +85,11 @@ class PacketsManager with ChangeNotifier {
     }
   }
 
+  Future<void> savePacketRegister(Packet packet) async {
+    await _packetsService.savePacketRegister(packet);
+    notifyListeners();   
+  }
+
   Future<void> updatePacket(Packet packet) async {
     final index = _items.indexWhere((item) => item.id == packet.id);
     if (index >= 0) {
