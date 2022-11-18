@@ -85,9 +85,9 @@ class PacketsManager with ChangeNotifier {
     }
   }
 
-  Future<void> savePacketRegister(Packet packet) async {
-    await _packetsService.savePacketRegister(packet);
-    notifyListeners();   
+  Future<void> saveUserRegister(String? id) async {
+    await _packetsService.saveUserRegister(id);
+    notifyListeners();
   }
 
   Future<void> updatePacket(Packet packet) async {

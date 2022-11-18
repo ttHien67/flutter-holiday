@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'packet_manager.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +45,7 @@ class _PacketDetailScreenState extends State<PacketDetailScreen> {
   Future<void> savePacketRegister() async {
     try {
       final packetsManager = context.read<PacketsManager>();
-      await packetsManager.savePacketRegister(_packet);
+      await packetsManager.saveUserRegister(_packet.id);
     } catch (error) {
       await showErrorDialog(context, 'Some went wrong.');
     }
@@ -99,22 +101,20 @@ class _PacketDetailScreenState extends State<PacketDetailScreen> {
           const SizedBox(
             height: 50,
           ),
-          Container(
-            child: FlatButton(
-              child: Text('Register', style: TextStyle(fontSize: 20.0)),
-              color: Colors.blueGrey,
-              textColor: Colors.white,
-              onPressed: () {
-                savePacketRegister();
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(const SnackBar(
-                      content: Text(
-                    'Your packet has registered',
-                    textAlign: TextAlign.center,
-                  )));
-              },
-            ),
+          FlatButton(
+            color: Colors.blueGrey,
+            textColor: Colors.white,
+            onPressed: () {
+              savePacketRegister();
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(const SnackBar(
+                    content: Text(
+                  'Your packet has registered',
+                  textAlign: TextAlign.center,
+                )));
+            },
+            child: const Text('Register', style: TextStyle(fontSize: 20.0)),
           ),
         ],
       )),

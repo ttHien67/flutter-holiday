@@ -133,27 +133,24 @@ class PacketsService extends FirebaseService {
     }
   }
 
-  Future<Packet?> savePacketRegister(Packet packet) async {
+  Future<bool?> saveUserRegister(String? id) async {
     try {
-      final url = Uri.parse(
-        '$databaseUrl/userRegister/${packet.id}/$userId.json?auth=$token');
-      final response = await http.post(
-        url,
+      final url =
+          Uri.parse('$databaseUrl/userRegister/$id.json?auth=$token');
+      final response = await http.post(url,
         body: json.encode(
-          packet.toJson(),
-        ),
+          userId
+        )
       );
 
       if (response.statusCode != 200) {
         throw Exception(json.decode(response.body)['error']);
       }
 
-      return packet.copyWith(
-        id: json.decode(response.body)['name'],
-      );
+      return true;
     } catch (error) {
       print(error);
-      return null;
+      return false;
     }
   }
 }
