@@ -13,12 +13,12 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: const Text('Hello Friend!'),
+            title: const Text('My Option'),
             automaticallyImplyLeading: false,
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.shop),
+            leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () {
               Navigator.of(context)
@@ -27,7 +27,7 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.edit),
+            leading: const Icon(Icons.manage_accounts_rounded),
             title: const Text('Manager Packets'),
             onTap: () {
               Navigator.of(context)
