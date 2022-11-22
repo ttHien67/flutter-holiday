@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'ui/screens.dart';
-import 'ui/registers/register_screen.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -49,7 +48,6 @@ class MyApp extends StatelessWidget {
                           : const AuthScreen();
                     })),
             routes: {
-              RegisterScreen.routeName: (ctx) => const UserPacketsScreen(),
               UserPacketsScreen.routeName: (ctx) => const UserPacketsScreen(),
             },
             onGenerateRoute: (settings) {

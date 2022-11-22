@@ -1,10 +1,13 @@
 import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import '../models/packet.dart';
 import '../models/auth_token.dart';
 
+import '../ui/shared/dialog_utils.dart';
 import 'firebase_service.dart';
 
 class PacketsService extends FirebaseService {
@@ -134,18 +137,16 @@ class PacketsService extends FirebaseService {
   }
 
   Future<bool?> saveUserRegister(String? id) async {
+    var now = DateTime.now();
+    String formattedDate = DateFormat('kk:mm - yyyy-MM-dd').format(now);
     try {
-      final url =
-          Uri.parse('$databaseUrl/userRegister/$id.json?auth=$token');
+      final url = Uri.parse('$databaseUrl/userRegister/$id.json?auth=$token');
       final response = await http.post(url,
-        body: json.encode(
-          userId
-        )
-      );
+          body: json.encode({"UserID": userId, "Date": formattedDate }));
 
       if (response.statusCode != 200) {
         throw Exception(json.decode(response.body)['error']);
-      }
+      } else {}
 
       return true;
     } catch (error) {

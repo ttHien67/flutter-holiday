@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'packet_manager.dart';
 import 'package:provider/provider.dart';
 
@@ -43,9 +44,13 @@ class _PacketDetailScreenState extends State<PacketDetailScreen> {
   }
 
   Future<void> savePacketRegister() async {
+    var now = DateTime.now();
+    String formattedDate = DateFormat('kk:mm - yyyy-MM-dd').format(now);
     try {
       final packetsManager = context.read<PacketsManager>();
       await packetsManager.saveUserRegister(_packet.id);
+      // ignore: use_build_context_synchronously
+      showDoneDialog(context, 'You was register at $formattedDate');
     } catch (error) {
       await showErrorDialog(context, 'Some went wrong.');
     }
@@ -106,13 +111,6 @@ class _PacketDetailScreenState extends State<PacketDetailScreen> {
             textColor: Colors.white,
             onPressed: () {
               savePacketRegister();
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(const SnackBar(
-                    content: Text(
-                  'Your packet has registered',
-                  textAlign: TextAlign.center,
-                )));
             },
             child: const Text('Register', style: TextStyle(fontSize: 20.0)),
           ),
